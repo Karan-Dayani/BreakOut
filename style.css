@@ -1,0 +1,38 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bgColor: #EDD2F3;
+    --txtColor: #8E806A;
+}
+
+body {
+    background-color: var(--bgColor);
+    color: var(--txtColor);
+}
+
+.btn {
+    border-color: var(--txtColor);
+    color: var(--txtColor);
+}
+.btn:hover {
+    background-color: var(--txtColor);
+    border-color: var(--txtColor);
+    color: var(--bgColor);
+}
+
+.play-section {
+    transition: all .5s ease .5s;
+}
+
+.fadeOut {
+    opacity: 0;
+    pointer-events: none;
+}
+.fadeIn {
+    opacity: 1;
+    pointer-events: all;
+}
