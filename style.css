@@ -23,6 +23,11 @@ body {
     border-color: var(--txtColor);
     color: var(--bgColor);
 }
+.btn:active {
+    background-color: var(--txtColor);
+    border-color: var(--txtColor);
+    color: var(--bgColor);
+}
 
 .play-section {
     transition: all .5s ease .5s;
