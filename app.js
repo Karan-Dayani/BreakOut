@@ -3,6 +3,10 @@ const playBtn = document.querySelector(".play-btn");
 const levelDisplay = document.querySelector(".level-display");
 const gameArea = document.querySelector(".game-area");
 
+const life = document.querySelector(".life");
+const points = document.querySelector(".points");
+const level = document.querySelector(".level");
+
 playBtn.onclick = () => {
     playSection.classList.add("fadeOut");
     levelDisplay.classList.replace("fadeOut", "fadeIn");
@@ -29,6 +33,12 @@ const PADDLE_WIDTH = 100;
 const PADDLE_HEIGHT = 20;
 const PADDLE_MARGIN_BOTTOM = 50;
 const BALL_RADIUS = 10;
+const SCORE_UNIT = 10;
+const MAX_LEVEL = 3;
+let SCORE = 0;
+let LIFE = 3; //* Player has 3 lives.
+let LEVEL = 1;
+let GAME_OVER = false;
 let paddleX = (cvs.width - PADDLE_WIDTH)/2
 let leftArrow = false;
 let rightArrow = false;
@@ -121,6 +131,8 @@ function ballwallcollision() {
         ball.dy = - ball.dy
     }
     if (ball.y + ball.radius > cvs.height) {
+        LIFE--;
+        life.textContent = LIFE;
         resetBall();
     }
 }
@@ -148,10 +160,108 @@ function ballPaddleCollision() {
     }
 }
 
+//! Creating the bricks
+const brick = {
+    row: 1,
+    column: 9,
+    width: 100,
+    height: 20,
+    offSetLeft: 20,
+    offSetTop: 20,
+    marginTop: 20,
+    fillColor: "#8FBDD3",
+    strokeColor: "#A97155"
+}
+
+let bricks = [];
+
+function createBricks() {
+    for (let r = 0; r < brick.row; r++) {
+        bricks[r] = []
+        for (let c = 0; c < brick.column; c++) {
+            bricks[r][c] = {
+                x: c * (brick.offSetLeft + brick.width) + brick.offSetLeft,
+                y: r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop,
+                status : true
+            }
+        }
+    }
+}
+
+createBricks();
+
+//! Drawing bricks
+function drawBricks() {
+    for (let r = 0; r < brick.row; r++) {
+        for (let c = 0; c < brick.column; c++) {
+            let b = bricks[r][c];
+            //! if the brick isn't broken
+            if (b.status) {
+                ctx.fillStyle = brick.fillColor;
+                ctx.fillRect(b.x, b.y, brick.width, brick.height);
+
+                ctx.strokeStyle = brick.strokeColor;
+                ctx.strokeRect(b.x, b.y, brick.width, brick.height);
+            }
+        }
+    }
+}
+
+//! Ball and brick collision detection
+function ballBrickCollision() {
+    for (let r = 0; r < brick.row; r++) {
+        for (let c = 0; c < brick.column; c++) {
+            let b = bricks[r][c];
+            //! if the brick isn't broken
+            if (b.status) {
+                if (ball.x + ball.radius > b.x && ball.x - ball.radius < b.x + brick.width && ball.y + ball.radius > b.y && ball.y - ball.radius < b.y + brick.height) {
+                    ball.dy = -ball.dy;
+                    b.status = false //* the brick is broken
+                    SCORE += SCORE_UNIT;
+                    points.textContent = SCORE;
+                }
+            }
+        }
+    }
+}
+
+//! Game over function
+function gameOver() {
+    if (LIFE <= 0) {
+        gameOver = true
+    }
+}
+
+//! level up function
+function levelUp() {
+    let isLevelDone = true;
+
+    //! chech if all the bricks are broken
+    for (let r = 0; r < brick.row; r++) {
+        for (let c = 0; c < brick.column; c++) {
+            isLevelDone = isLevelDone && !bricks[r][c].status;
+        }
+    }
+
+    if (isLevelDone) {
+        if (LEVEL >= MAX_LEVEL) {
+            GAME_OVER = true;
+            return;
+        }
+        brick.row++;
+        creatBricks();
+        ball.speed += 0.5;
+        resetBall()
+        LEVEL++;
+        level.textContent = LEVEL;
+    }
+}
+
 //! Draw function
 function draw() {
     drawPaddle();
     drawBall();
+    drawBricks();
 }
 
 //! Update function
@@ -160,6 +270,9 @@ function update() {
     moveBall();
     ballwallcollision();
     ballPaddleCollision();
+    ballBrickCollision();
+    gameOver();
+    levelUp();
 }
 
 //! Game loop
@@ -167,5 +280,7 @@ function loop() {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
     draw();
     update();
-    requestAnimationFrame(loop);
+    if (!GAME_OVER) {
+        requestAnimationFrame(loop);
+    }
 }
