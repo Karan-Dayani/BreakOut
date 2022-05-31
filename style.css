@@ -17,6 +17,10 @@ body {
     font-family: 'Comfortaa', cursive;
 }
 
+.heading {
+    font-size: 100px;
+}
+
 .btn {
     border-color: var(--txtColor);
     color: var(--txtColor);
@@ -26,7 +30,7 @@ body {
     border-color: var(--txtColor);
     color: var(--bgColor);
 }
-.btn:active {
+.btn:focus {
     background-color: var(--txtColor);
     border-color: var(--txtColor);
     color: var(--bgColor);
@@ -42,7 +46,6 @@ body {
 
 .game-area {
     transition: all .5s ease 3.5s;
-    z-index: -1;
 }
 
 .game-over {
@@ -60,10 +63,12 @@ body {
 .fadeOut {
     opacity: 0;
     pointer-events: none;
+    z-index: -1;
 }
 .fadeIn {
     opacity: 1;
     pointer-events: all;
+    z-index: 1;
 }
 
 canvas {
@@ -73,4 +78,5 @@ canvas {
 
 .blur-effect {
     filter: blur(8px);
+    z-index: -1;
 }
