@@ -7,6 +7,7 @@ const life = document.querySelector(".life");
 const points = document.querySelector(".points");
 const level = document.querySelector(".level");
 const gameOverDisplay = document.querySelector(".game-over");
+const winDisplay = document.querySelector(".win-display");
 
 playBtn.onclick = () => {
     playSection.classList.add("fadeOut");
@@ -35,12 +36,12 @@ const PADDLE_HEIGHT = 20;
 const PADDLE_MARGIN_BOTTOM = 50;
 const BALL_RADIUS = 10;
 const SCORE_UNIT = 10;
-const MAX_LEVEL = 3;
+const MAX_LEVEL = 5;
 let SCORE = 0;
 let LIFE = 3; //* Player has 3 lives.
 let LEVEL = 1;
 let GAME_OVER = false;
-let paddleX = (cvs.width - PADDLE_WIDTH) / 2
+// let paddleX = (cvs.width - PADDLE_WIDTH) / 2
 let leftArrow = false;
 let rightArrow = false;
 let isLevelDone;
@@ -104,7 +105,7 @@ const ball = {
     x: cvs.width / 2,
     y: paddle.y - BALL_RADIUS,
     radius: BALL_RADIUS,
-    speed: 4,
+    speed: 5,
     dx: 3 * (Math.random() * 2 - 1),
     dy: -3
 }
@@ -145,7 +146,7 @@ function ballwallcollision() {
 
 //! Reseting the ball
 function resetBall() {
-    ball.x = cvs.width / 2;
+    ball.x = paddle.x + PADDLE_WIDTH/2;
     ball.y = paddle.y - BALL_RADIUS;
     ball.dx = 3 * (Math.random() * 2 - 1);
     ball.dy = -3;
@@ -168,7 +169,7 @@ function ballPaddleCollision() {
 
 //! Creating the bricks
 const brick = {
-    row: 1,
+    row: 3,
     column: 9,
     width: 100,
     height: 20,
@@ -257,6 +258,11 @@ function levelUp() {
     if (isLevelDone) {
         if (LEVEL >= MAX_LEVEL) {
             GAME_OVER = true;
+            levelDisplay.classList.add("anim-class");
+            gameArea.classList.add("anim-class");
+            levelDisplay.classList.add("blur-effect");
+            gameArea.classList.add("blur-effect");
+            winDisplay.classList.replace("fadeOut", "fadeIn");
             return;
         }
         LEVEL++;
