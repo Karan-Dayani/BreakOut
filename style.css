@@ -42,6 +42,14 @@ body {
     z-index: -1;
 }
 
+.game-over {
+    transition: all .5s ease .5s;
+}
+
+.anim-class {
+    transition: all .5s ease .5s;
+}
+
 .fadeOut {
     opacity: 0;
     pointer-events: none;
@@ -53,4 +61,8 @@ body {
 
 canvas {
     border: solid 3px var(--txtColor);
+}
+
+.blur-effect {
+    filter: blur(8px);
 }

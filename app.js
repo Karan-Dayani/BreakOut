@@ -6,6 +6,7 @@ const gameArea = document.querySelector(".game-area");
 const life = document.querySelector(".life");
 const points = document.querySelector(".points");
 const level = document.querySelector(".level");
+const gameOverDisplay = document.querySelector(".game-over");
 
 playBtn.onclick = () => {
     playSection.classList.add("fadeOut");
@@ -39,9 +40,10 @@ let SCORE = 0;
 let LIFE = 3; //* Player has 3 lives.
 let LEVEL = 1;
 let GAME_OVER = false;
-let paddleX = (cvs.width - PADDLE_WIDTH)/2
+let paddleX = (cvs.width - PADDLE_WIDTH) / 2
 let leftArrow = false;
 let rightArrow = false;
+let isLevelDone;
 
 level.textContent = LEVEL;
 
@@ -127,15 +129,17 @@ function moveBall() {
 //! Ball and wall collision detection
 function ballwallcollision() {
     if (ball.x + ball.radius > cvs.width || ball.x - ball.radius < 0) {
-        ball.dx = - ball.dx;
+        ball.dx = -ball.dx;
     }
-    if (ball.y - ball.radius < 0 ) {
-        ball.dy = - ball.dy
+    if (ball.y - ball.radius < 0) {
+        ball.dy = -ball.dy
     }
     if (ball.y + ball.radius > cvs.height) {
-        LIFE--;
-        life.textContent = LIFE;
-        resetBall();
+        if (!isLevelDone) {
+            LIFE--;
+            life.textContent = LIFE;
+            resetBall();
+        }
     }
 }
 
@@ -184,7 +188,7 @@ function createBricks() {
             bricks[r][c] = {
                 x: c * (brick.offSetLeft + brick.width) + brick.offSetLeft,
                 y: r * (brick.offSetTop + brick.height) + brick.offSetTop + brick.marginTop,
-                status : true
+                status: true
             }
         }
     }
@@ -230,13 +234,18 @@ function ballBrickCollision() {
 //! Game over function
 function gameOver() {
     if (LIFE <= 0) {
-        gameOver = true
+        levelDisplay.classList.add("anim-class");
+        gameArea.classList.add("anim-class");
+        levelDisplay.classList.add("blur-effect");
+        gameArea.classList.add("blur-effect");
+        gameOverDisplay.classList.replace("fadeOut", "fadeIn");
+        GAME_OVER = true;
     }
 }
 
 //! level up function
 function levelUp() {
-    let isLevelDone = true;
+    isLevelDone = true;
 
     //! chech if all the bricks are broken
     for (let r = 0; r < brick.row; r++) {
@@ -250,12 +259,15 @@ function levelUp() {
             GAME_OVER = true;
             return;
         }
+        LEVEL++;
+        level.textContent = LEVEL;
         brick.row++;
         createBricks();
         ball.speed += 0.5;
         resetBall()
-        LEVEL++;
-        level.textContent = LEVEL;
+        SCORE = 0;
+        points.textContent = SCORE;
+
     }
 }
 
