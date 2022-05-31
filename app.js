@@ -43,6 +43,8 @@ let paddleX = (cvs.width - PADDLE_WIDTH)/2
 let leftArrow = false;
 let rightArrow = false;
 
+level.textContent = LEVEL;
+
 //! Creating the paddle
 const paddle = {
     x: cvs.width / 2 - PADDLE_WIDTH / 2,
@@ -249,7 +251,7 @@ function levelUp() {
             return;
         }
         brick.row++;
-        creatBricks();
+        createBricks();
         ball.speed += 0.5;
         resetBall()
         LEVEL++;
