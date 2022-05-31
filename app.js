@@ -2,6 +2,7 @@ const playSection = document.querySelector(".play-section");
 const playBtn = document.querySelector(".play-btn");
 const levelDisplay = document.querySelector(".level-display");
 const gameArea = document.querySelector(".game-area");
+const reloadBtn = document.querySelector(".reload-btn");
 
 const life = document.querySelector(".life");
 const points = document.querySelector(".points");
@@ -303,4 +304,9 @@ function loop() {
     if (!GAME_OVER) {
         requestAnimationFrame(loop);
     }
+}
+
+
+reloadBtn.onclick = () => {
+    location.reload();
 }
