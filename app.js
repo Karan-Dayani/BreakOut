@@ -39,7 +39,7 @@ const BALL_RADIUS = 10;
 const SCORE_UNIT = 10;
 const MAX_LEVEL = 5;
 let SCORE = 0;
-let LIFE = 3; //* Player has 3 lives.
+let LIFE = 5; //* Player has 5 lives.
 let LEVEL = 1;
 let GAME_OVER = false;
 // let paddleX = (cvs.width - PADDLE_WIDTH) / 2
@@ -47,7 +47,10 @@ let leftArrow = false;
 let rightArrow = false;
 let isLevelDone;
 
+//! Setting info
 level.textContent = LEVEL;
+points.textContent = SCORE;
+life.textContent = LIFE;
 
 //! Creating the paddle
 const paddle = {
