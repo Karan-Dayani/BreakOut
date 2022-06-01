@@ -1,8 +1,35 @@
+//! Sounds
+var INTRO_S = new Audio();
+INTRO_S.src = "sounds/intro.mp3";
+
+var LIFE_LOST_S = new Audio();
+LIFE_LOST_S.src = "sounds/life-lost.mp3";
+
+var GAME_OVER_S = new Audio;
+GAME_OVER_S.src = "sounds/game-over.mp3";
+
+var BALL_PADDLE_S = new Audio();
+BALL_PADDLE_S.src = "sounds/ball-paddle.mp3";
+
+var BALL_BLOCK_S = new Audio();
+BALL_BLOCK_S.src = "sounds/ball-block.mp3";
+
+var BALL_WALL_S = new Audio();
+BALL_WALL_S.src = "sounds/ball-wall.mp3";
+
+var LEVEL_UP_S = new Audio();
+LEVEL_UP_S.src = "sounds/level-up.mp3";
+
+var GAME_FINISH_S = new Audio();
+GAME_FINISH_S.src = "sounds/game-finish.mp3";
+
+//! Basic stuff
 const playSection = document.querySelector(".play-section");
 const playBtn = document.querySelector(".play-btn");
 const levelDisplay = document.querySelector(".level-display");
 const gameArea = document.querySelector(".game-area");
-const reloadBtn = document.querySelector(".reload-btn");
+const reloadBtn1 = document.querySelector(".reload-btn1");
+const reloadBtn2 = document.querySelector(".reload-btn2");
 
 const life = document.querySelector(".life");
 const points = document.querySelector(".points");
@@ -10,7 +37,10 @@ const level = document.querySelector(".level");
 const gameOverDisplay = document.querySelector(".game-over");
 const winDisplay = document.querySelector(".win-display");
 
+const soundElement = document.querySelector(".sound-img");
+
 playBtn.onclick = () => {
+    INTRO_S.play();
     playSection.classList.add("fadeOut");
     levelDisplay.classList.replace("fadeOut", "fadeIn");
     setTimeout(() => {
@@ -37,7 +67,7 @@ const PADDLE_HEIGHT = 20;
 const PADDLE_MARGIN_BOTTOM = 50;
 const BALL_RADIUS = 10;
 const SCORE_UNIT = 10;
-const MAX_LEVEL = 5;
+const MAX_LEVEL = 1;
 let SCORE = 0;
 let LIFE = 5; //* Player has 5 lives.
 let LEVEL = 1;
@@ -134,13 +164,16 @@ function moveBall() {
 //! Ball and wall collision detection
 function ballwallcollision() {
     if (ball.x + ball.radius > cvs.width || ball.x - ball.radius < 0) {
+        BALL_WALL_S.play();
         ball.dx = -ball.dx;
     }
     if (ball.y - ball.radius < 0) {
+        BALL_WALL_S.play();
         ball.dy = -ball.dy
     }
     if (ball.y + ball.radius > cvs.height) {
         if (!isLevelDone) {
+            LIFE_LOST_S.play();
             LIFE--;
             life.textContent = LIFE;
             resetBall();
@@ -159,6 +192,7 @@ function resetBall() {
 //! Ball and paddle collision detection
 function ballPaddleCollision() {
     if (ball.x < paddle.x + paddle.width && ball.x > paddle.x && paddle.y < paddle.y + paddle.height && ball.y > paddle.y) {
+        BALL_PADDLE_S.play();
         //! check where the ball hit at the paddle
         let collidePoint = ball.x - (paddle.x + paddle.width / 2);
         //! normalise the values
@@ -226,6 +260,7 @@ function ballBrickCollision() {
             //! if the brick isn't broken
             if (b.status) {
                 if (ball.x + ball.radius > b.x && ball.x - ball.radius < b.x + brick.width && ball.y + ball.radius > b.y && ball.y - ball.radius < b.y + brick.height) {
+                    BALL_BLOCK_S.play();
                     ball.dy = -ball.dy;
                     b.status = false //* the brick is broken
                     SCORE += SCORE_UNIT;
@@ -239,6 +274,7 @@ function ballBrickCollision() {
 //! Game over function
 function gameOver() {
     if (LIFE <= 0) {
+        GAME_OVER_S.play();
         levelDisplay.classList.add("anim-class");
         gameArea.classList.add("anim-class");
         levelDisplay.classList.add("blur-effect");
@@ -262,6 +298,7 @@ function levelUp() {
     if (isLevelDone) {
         if (LEVEL >= MAX_LEVEL) {
             GAME_OVER = true;
+            GAME_FINISH_S.play();
             levelDisplay.classList.add("anim-class");
             gameArea.classList.add("anim-class");
             levelDisplay.classList.add("blur-effect");
@@ -269,6 +306,7 @@ function levelUp() {
             winDisplay.classList.replace("fadeOut", "fadeIn");
             return;
         }
+        LEVEL_UP_S.play();
         LEVEL++;
         level.textContent = LEVEL;
         brick.row++;
@@ -309,7 +347,29 @@ function loop() {
     }
 }
 
-
-reloadBtn.onclick = () => {
+//! Reloding website
+reloadBtn1.onclick = () => {
     location.reload();
+}
+reloadBtn2.onclick = () => {
+    location.reload();
+}
+
+//! Sound Manager
+soundElement.addEventListener("click", audioManager);
+
+function audioManager() {
+    //! Change image
+    let imgSrc = soundElement.getAttribute("src");
+    let SOUND_IMG = imgSrc == "images/sound ON.png" ? "images/sound OFF.png" : "images/sound ON.png";
+    soundElement.setAttribute("src", SOUND_IMG);
+
+    //! Mute and unmute sound
+    LIFE_LOST_S.muted = LIFE_LOST_S.muted ? false : true;
+    GAME_OVER_S.muted = GAME_OVER_S.muted ? false : true;
+    GAME_FINISH_S.muted = GAME_FINISH_S.muted ? false : true;
+    LEVEL_UP_S.muted = LEVEL_UP_S.muted ? false : true;
+    BALL_BLOCK_S.muted = BALL_BLOCK_S.muted ? false : true;
+    BALL_PADDLE_S.muted = BALL_PADDLE_S.muted ? false : true;
+    BALL_WALL_S.muted = BALL_WALL_S.muted ? false : true;
 }
