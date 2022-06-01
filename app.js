@@ -357,6 +357,11 @@ reloadBtn2.onclick = () => {
 
 //! Sound Manager
 soundElement.addEventListener("click", audioManager);
+document.addEventListener("keydown", function (e) {
+    if (e.keyCode === 77) {
+        audioManager();
+    }
+});
 
 function audioManager() {
     //! Change image
