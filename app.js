@@ -28,6 +28,7 @@ const gameArea = document.querySelector(".game-area");
 const reloadBtn1 = document.querySelector(".reload-btn1");
 const reloadBtn2 = document.querySelector(".reload-btn2");
 const pauseBtn = document.querySelector(".pause-btn");
+const pauseMenu = document.querySelector(".pause-menu");
 
 const life = document.querySelector(".life");
 const points = document.querySelector(".points");
@@ -413,8 +414,18 @@ document.addEventListener("keydown", function (e) {
 
 function pauseGame() {
     void(0);
+    cvs.style.cursor = "default";
+    levelDisplay.classList.add("anim-class");
+    gameArea.classList.add("anim-class");
+    levelDisplay.classList.add("blur-effect");
+    gameArea.classList.add("blur-effect");
+    pauseMenu.classList.replace("fadeOut", "fadeIn");
 }
 
 function resumeGame() {
+    pauseMenu.classList.replace("fadeIn", "fadeOut");
+    levelDisplay.classList.remove("blur-effect");
+    gameArea.classList.remove("blur-effect");
+    cvs.style.cursor = "none";
     update();
 }
