@@ -35,7 +35,8 @@ const level = document.querySelector(".level");
 const gameOverDisplay = document.querySelector(".game-over");
 const winDisplay = document.querySelector(".win-display");
 
-const soundElement = document.querySelector(".sound-img");
+const soundON = document.querySelector(".sound-on");
+const soundOFF = document.querySelector(".sound-off");
 
 playBtn.onclick = () => {
     INTRO_S.play();
@@ -360,7 +361,8 @@ reloadBtn2.onclick = () => {
 }
 
 //! Sound Manager
-soundElement.addEventListener("click", audioManager);
+soundOFF.addEventListener("click", audioManager);
+soundON.addEventListener("click", audioManager);
 document.addEventListener("keydown", function (e) {
     if (e.keyCode === 77) {
         audioManager();
@@ -369,9 +371,14 @@ document.addEventListener("keydown", function (e) {
 
 function audioManager() {
     //! Change image
-    let imgSrc = soundElement.getAttribute("src");
-    let SOUND_IMG = imgSrc == "images/sound ON.png" ? "images/sound OFF.png" : "images/sound ON.png";
-    soundElement.setAttribute("src", SOUND_IMG);
+    if (soundOFF.classList.contains("fadeOut")) {
+        soundON.classList.add("fadeOut");
+        soundOFF.classList.replace("fadeOut", "fadaIn");
+    } else if (soundON.classList.contains("fadeOut")) {
+        soundON.classList.remove("fadeOut");
+        soundOFF.classList.remove("fadeIn");
+        soundOFF.classList.add("fadeOut");
+    }
 
     //! Mute and unmute sound
     INTRO_S.muted = INTRO_S.muted ? false : true;
@@ -394,7 +401,7 @@ pauseBtn.onclick = () => {
     }
 }
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function (e) {
     if (e.keyCode === 27) {
         if (!isPaused) {
             isPaused = true;

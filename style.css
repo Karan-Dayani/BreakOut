@@ -88,3 +88,8 @@ canvas {
 .pause-btn {
     cursor: pointer;
 }
+
+.sound {
+    transition: all .2s ease;
+    cursor: pointer;
+}
