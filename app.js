@@ -38,10 +38,12 @@ const gameOverDisplay = document.querySelector(".game-over");
 const winDisplay = document.querySelector(".win-display");
 
 const soundElement = document.querySelector(".sound-img");
+const muteUnmute_S = document.querySelector(".m-u");
 
 playBtn.onclick = () => {
     INTRO_S.play();
     playSection.classList.add("fadeOut");
+    playBtn.disabled = true;
     levelDisplay.classList.replace("fadeOut", "fadeIn");
     setTimeout(() => {
         levelDisplay.classList.replace("top-50", "top-0");
@@ -183,7 +185,7 @@ function ballwallcollision() {
 
 //! Reseting the ball
 function resetBall() {
-    ball.x = paddle.x + PADDLE_WIDTH/2;
+    ball.x = paddle.x + PADDLE_WIDTH / 2;
     ball.y = paddle.y - BALL_RADIUS;
     ball.dx = 3 * (Math.random() * 2 - 1);
     ball.dy = -3;
@@ -275,6 +277,7 @@ function ballBrickCollision() {
 function gameOver() {
     if (LIFE <= 0) {
         GAME_OVER_S.play();
+        cvs.style.cursor = "default";
         levelDisplay.classList.add("anim-class");
         gameArea.classList.add("anim-class");
         levelDisplay.classList.add("blur-effect");
@@ -299,6 +302,7 @@ function levelUp() {
         if (LEVEL >= MAX_LEVEL) {
             GAME_OVER = true;
             GAME_FINISH_S.play();
+            cvs.style.cursor = "default";
             levelDisplay.classList.add("anim-class");
             gameArea.classList.add("anim-class");
             levelDisplay.classList.add("blur-effect");
@@ -369,7 +373,14 @@ function audioManager() {
     let SOUND_IMG = imgSrc == "images/sound ON.png" ? "images/sound OFF.png" : "images/sound ON.png";
     soundElement.setAttribute("src", SOUND_IMG);
 
+    if (imgSrc === "images/sound ON.png") {
+        muteUnmute_S.textContent = "unmute";
+    } else {
+        muteUnmute_S.textContent = "mute";
+    }
+
     //! Mute and unmute sound
+    INTRO_S.muted = INTRO_S.muted ? false : true;
     LIFE_LOST_S.muted = LIFE_LOST_S.muted ? false : true;
     GAME_OVER_S.muted = GAME_OVER_S.muted ? false : true;
     GAME_FINISH_S.muted = GAME_FINISH_S.muted ? false : true;

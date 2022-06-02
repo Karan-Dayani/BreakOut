@@ -40,6 +40,10 @@ body {
     transition: all .5s ease .5s;
 }
 
+.lead {
+    padding-top: 11px;
+}
+
 .level-display {
     transition: all 2s ease 1s;
 }
