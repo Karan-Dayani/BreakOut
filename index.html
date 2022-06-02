@@ -20,11 +20,8 @@
         </div>
     </section>
 
-    <section class="image-div position-absolute top-0 start-0">
-        <div class="sounds d-flex justify-content-start">
-            <img src="images/sound ON.png" alt="" height="50" width="50" class="sound-img">
-            <p class="lead">Press M to <span class="m-u">mute</span> sound.</p>
-        </div>
+    <section class="image-div position-absolute top-0 end-0">
+        <img src="images/sound ON.png" alt="" height="50" width="50" class="sound-img">
     </section>
 
     <section class="level-display position-absolute top-50 start-50 translate-middle fadeOut">
@@ -32,6 +29,16 @@
     </section>
 
     <section class="game-area position-absolute bottom-0 start-50 translate-middle-x fadeOut">
+        <div class="pause-div">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                class="bi bi-pause-btn pause-btn" viewBox="0 0 16 16">
+                <path
+                    d="M6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z" />
+                <path
+                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+            </svg>
+        </div>
+
         <canvas id="breakout" width="1100" height="500"></canvas>
 
         <div class="info d-flex justify-content-evenly">

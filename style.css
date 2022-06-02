@@ -84,3 +84,7 @@ canvas {
     filter: blur(8px);
     z-index: -1;
 }
+
+.pause-btn {
+    cursor: pointer;
+}

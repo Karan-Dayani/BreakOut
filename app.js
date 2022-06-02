@@ -27,6 +27,7 @@ const levelDisplay = document.querySelector(".level-display");
 const gameArea = document.querySelector(".game-area");
 const reloadBtn1 = document.querySelector(".reload-btn1");
 const reloadBtn2 = document.querySelector(".reload-btn2");
+const pauseBtn = document.querySelector(".pause-btn");
 
 const life = document.querySelector(".life");
 const points = document.querySelector(".points");
@@ -35,7 +36,6 @@ const gameOverDisplay = document.querySelector(".game-over");
 const winDisplay = document.querySelector(".win-display");
 
 const soundElement = document.querySelector(".sound-img");
-const muteUnmute_S = document.querySelector(".m-u");
 
 playBtn.onclick = () => {
     INTRO_S.play();
@@ -307,7 +307,6 @@ function levelUp() {
             winDisplay.classList.replace("fadeOut", "fadeIn");
             return;
         }
-        LEVEL_UP_S.play();
         LEVEL++;
         level.textContent = LEVEL;
         brick.row++;
@@ -342,7 +341,11 @@ function update() {
 function loop() {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
     draw();
-    update();
+    if (isPaused) {
+        pauseGame();
+    } else {
+        resumeGame();
+    }
     if (!GAME_OVER) {
         requestAnimationFrame(loop);
     }
@@ -370,12 +373,6 @@ function audioManager() {
     let SOUND_IMG = imgSrc == "images/sound ON.png" ? "images/sound OFF.png" : "images/sound ON.png";
     soundElement.setAttribute("src", SOUND_IMG);
 
-    if (imgSrc === "images/sound ON.png") {
-        muteUnmute_S.textContent = "unmute";
-    } else {
-        muteUnmute_S.textContent = "mute";
-    }
-
     //! Mute and unmute sound
     INTRO_S.muted = INTRO_S.muted ? false : true;
     LIFE_LOST_S.muted = LIFE_LOST_S.muted ? false : true;
@@ -384,4 +381,33 @@ function audioManager() {
     BALL_BLOCK_S.muted = BALL_BLOCK_S.muted ? false : true;
     BALL_PADDLE_S.muted = BALL_PADDLE_S.muted ? false : true;
     BALL_WALL_S.muted = BALL_WALL_S.muted ? false : true;
+}
+
+//! Pause functionlity
+let isPaused = false;
+
+pauseBtn.onclick = () => {
+    if (!isPaused) {
+        isPaused = true;
+    } else {
+        isPaused = false;
+    }
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.keyCode === 27) {
+        if (!isPaused) {
+            isPaused = true;
+        } else {
+            isPaused = false;
+        }
+    }
+})
+
+function pauseGame() {
+    void(0);
+}
+
+function resumeGame() {
+    update();
 }
