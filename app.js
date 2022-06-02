@@ -17,9 +17,6 @@ BALL_BLOCK_S.src = "sounds/ball-block.mp3";
 var BALL_WALL_S = new Audio();
 BALL_WALL_S.src = "sounds/ball-wall.mp3";
 
-var LEVEL_UP_S = new Audio();
-LEVEL_UP_S.src = "sounds/level-up.mp3";
-
 var GAME_FINISH_S = new Audio();
 GAME_FINISH_S.src = "sounds/game-finish.mp3";
 
@@ -104,16 +101,16 @@ function drawPaddle() {
 
 //! Controling the paddle
 document.addEventListener("keydown", function (e) {
-    if (e.keyCode === 37) {
+    if (e.keyCode === 37 || e.keyCode === 65) {
         leftArrow = true;
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 39 || e.keyCode === 68) {
         rightArrow = true;
     }
 });
 document.addEventListener("keyup", function (e) {
-    if (e.keyCode === 37) {
+    if (e.keyCode === 37 || e.keyCode === 65) {
         leftArrow = false;
-    } else if (e.keyCode === 39) {
+    } else if (e.keyCode === 39 || e.keyCode === 68) {
         rightArrow = false;
     }
 });
@@ -384,7 +381,6 @@ function audioManager() {
     LIFE_LOST_S.muted = LIFE_LOST_S.muted ? false : true;
     GAME_OVER_S.muted = GAME_OVER_S.muted ? false : true;
     GAME_FINISH_S.muted = GAME_FINISH_S.muted ? false : true;
-    LEVEL_UP_S.muted = LEVEL_UP_S.muted ? false : true;
     BALL_BLOCK_S.muted = BALL_BLOCK_S.muted ? false : true;
     BALL_PADDLE_S.muted = BALL_PADDLE_S.muted ? false : true;
     BALL_WALL_S.muted = BALL_WALL_S.muted ? false : true;
