@@ -39,6 +39,8 @@ const winDisplay = document.querySelector(".win-display");
 const soundON = document.querySelector(".sound-on");
 const soundOFF = document.querySelector(".sound-off");
 
+swal("Hey Listen!", "This game is still under development, so there are a log of bugs. Thank You, Enjoy!");
+
 playBtn.onclick = () => {
     INTRO_S.play();
     playSection.classList.add("fadeOut");
@@ -70,7 +72,7 @@ const BALL_RADIUS = 10;
 const SCORE_UNIT = 10;
 const MAX_LEVEL = 5;
 let SCORE = 0;
-let LIFE = 5; //* Player has 5 lives.
+let LIFE = 3; //* Player has 3 lives.
 let LEVEL = 1;
 let GAME_OVER = false;
 // let paddleX = (cvs.width - PADDLE_WIDTH) / 2
@@ -413,7 +415,6 @@ document.addEventListener("keydown", function (e) {
 })
 
 function pauseGame() {
-    void(0);
     cvs.style.cursor = "default";
     levelDisplay.classList.add("anim-class");
     gameArea.classList.add("anim-class");
